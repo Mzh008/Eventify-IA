@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Eventify{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+    <h1 class="page-title">Dashboard</h1>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h2>Total Activities</h2>
+            <p class="stat-number">{{ stats.total_activities }}</p>
+        </div>
+        <div class="stat-card">
+            <h2>Total Users</h2>
+            <p class="stat-number">{{ stats.total_users }}</p>
+        </div>
+        <div class="stat-card">
+            <h2>Total Attendance</h2>
+            <p class="stat-number">{{ stats.total_attendance }}</p>
+        </div>
+        <div class="stat-card">
+            <h2>Total Feedback</h2>
+            <p class="stat-number">{{ stats.total_feedback }}</p>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas id="activityChart"></canvas>
+    </div>
+</div>
+
+<style>
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .page-title {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    .stat-card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .stat-card h2 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #3498db;
+    }
+    .chart-container {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Activities per Month',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: 'rgba(52, 152, 219, 0.6)',
+                borderColor: 'rgba(52, 152, 219, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% block title %}Welcome to Eventify{% endblock %}
+{% block content %}
+<div class="home-container">
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Eventify</h1>
+            <p>Streamline your school activities with our comprehensive management system</p>
+            <a href="{{ url_for('auth') }}" class="btn btn-primary cta-button">Get Started</a>
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='images/about-image.jpg') }}" alt="Eventify Logo">
+        </div>
+    </header>
+
+    <section class="features">
+        <h2>Key Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Activity Tracking</h3>
+                <p>Easily manage and track all school activities in one place</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-user-plus"></i>
+                <h3>Sign-up Management</h3>
+                <p>Streamline the registration process for activities</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-clipboard-check"></i>
+                <h3>Attendance Monitoring</h3>
+                <p>Efficiently track student participation in events</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-comments"></i>
+                <h3>Feedback Collection</h3>
+                <p>Gather valuable insights from activity participants</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Create an Account</h3>
+                <p>Sign up as a student, teacher, or administrator</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Browse Activities</h3>
+                <p>Explore available school events and activities</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Sign Up & Participate</h3>
+                <p>Join activities and track your attendance</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Provide Feedback</h3>
+                <p>Share your thoughts to help improve future events</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>"Eventify has made managing school activities so much easier. It's a game-changer!"</p>
+                <p class="testimonial-author">- Sarah J., Teacher</p>
+            </div>
+            <div class="testimonial-card">
+                <p>"I love how easy it is to sign up for activities and keep track of my attendance."</p>
+                <p class="testimonial-author">- Mike T., Student</p>
+            </div>
+            <div class="testimonial-card">
+                <p>"The feedback system has helped us improve our events significantly."</p>
+                <p class="testimonial-author">- Lisa M., Administrator</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Get Started Today</h2>
+        <p>Join Eventify and transform the way you manage school activities</p>
+        <a href="{{ url_for('auth') }}" class="btn btn-primary">Sign Up Now</a>
+    </section>
+</div>
+
+<style>
+    .home-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 4rem;
+        background-color: #f0f4f8;
+        border-radius: 10px;
+        overflow: hidden;
+        padding: 2rem;
+    }
+    .hero-content {
+        flex: 1;
+        padding-right: 2rem;
+    }
+    .hero-image {
+        flex: 0 0 40%;
+        max-width: 40%;
+        text-align: center;
+    }
+    .hero-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .hero h1 {
+        font-size: 3rem;
+        color: #3498db;
+        margin-bottom: 1rem;
+    }
+    .hero p {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 2rem;
+    }
+    .cta-button {
+        font-size: 1.1rem;
+        padding: 0.75rem 1.5rem;
+    }
+    .features, .how-it-works, .testimonials {
+        margin-bottom: 4rem;
+    }
+    .features h2, .how-it-works h2, .testimonials h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+    }
+    .feature-grid, .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    .feature-card, .testimonial-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    .feature-card:hover, .testimonial-card:hover {
+        transform: translateY(-5px);
+    }
+    .feature-card i {
+        font-size: 3rem;
+        color: #3498db;
+        margin-bottom: 1rem;
+    }
+    .feature-card h3, .testimonial-card h3 {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    .feature-card p, .testimonial-card p {
+        color: #555;
+    }
+    .steps {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .step {
+        flex-basis: calc(25% - 1rem);
+        text-align: center;
+        padding: 1rem;
+    }
+    .step-number {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-color: #3498db;
+        color: #fff;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        line-height: 40px;
+        margin-bottom: 1rem;
+    }
+    .testimonial-author {
+        font-style: italic;
+        color: #7f8c8d;
+        margin-top: 1rem;
+    }
+    .cta {
+        text-align: center;
+        background-color: #ecf0f1;
+        padding: 3rem;
+        border-radius: 10px;
+    }
+    .cta h2 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+    .cta p {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 2rem;
+    }
+    .btn-primary {
+        background-color: #3498db;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+    
+    @media (max-width: 768px) {
+        .hero {
+            flex-direction: column;
+            padding: 2rem 1rem;
+        }
+        .hero-content, .hero-image {
+            width: 100%;
+            max-width: 100%;
+            padding-right: 0;
+        }
+        .hero-image {
+            margin-top: 2rem;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+        .hero p {
+            font-size: 1rem;
+        }
+        .step {
+            flex-basis: calc(50% - 1rem);
+            margin-bottom: 2rem;
+        }
+    }
+</style>
+{% endblock %}

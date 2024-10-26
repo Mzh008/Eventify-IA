@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block title %}Manage Account - Eventify{% endblock %}
+{% block content %}
+<div class="account-container">
+    <h1 class="page-title">Manage Your Account</h1>
+    <div class="account-content">
+        <div class="account-summary">
+            <div class="summary-card">
+                <img src="{{ url_for('static', filename='images/def.png') }}" alt="User Avatar" class="user-avatar">
+                <h2>{{ user.username }}</h2>
+                <p class="user-role">{{ user.role }}</p>
+            </div>
+        </div>
+        <div class="separator"></div>
+        <form method="POST" class="account-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" value="{{ user.name }}" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="description">About Me</label>
+                <textarea id="description" name="description" class="form-control">{{ user.description }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="grade">Grade/Year</label>
+                <input type="text" id="grade" name="grade" value="{{ user.grade }}" class="form-control">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+                <button type="button" class="btn btn-secondary" id="changePasswordBtn">Change Password</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div id="changePasswordModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Change Password</h2>
+        <form id="changePasswordForm">
+            <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" name="newPassword" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Change Password</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .account-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .page-title {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .account-content {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+    }
+    .account-summary {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .summary-card {
+        display: inline-block;
+        padding: 1.5rem;
+    }
+    .user-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #3498db;
+        margin-bottom: 1rem;
+    }
+    .summary-card h2 {
+        font-size: 1.8rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    .user-role {
+        font-size: 1.1rem;
+        color: #7f8c8d;
+    }
+    .separator {
+        width: 100%;
+        height: 2px;
+        background-color: #ecf0f1;
+        margin: 2rem 0;
+    }
+    .account-form {
+        display: grid;
+        gap: 1.5rem;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-group label {
+        font-size: 1rem;
+        color: #34495e;
+        margin-bottom: 0.5rem;
+    }
+    .form-control {
+        padding: 0.75rem;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+    }
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+        min-width: 120px;
+        margin: 0 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px; /* 设置固定高度 */
+    }
+    .btn-primary {
+        background-color: #3498db;
+        color: #ffffff;
+    }
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+    .btn-secondary {
+        background-color: #95a5a6;
+        color: #ffffff;
+    }
+    .btn-secondary:hover {
+        background-color: #7f8c8d;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        backdrop-filter: blur(5px);
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .account-container::-webkit-scrollbar-thumb {
+        background: #3498db;
+    }
+
+    .account-container::-webkit-scrollbar-thumb:hover {
+        background: #2980b9;
+    }
+
+    .account-container {
+        scrollbar-color: #3498db #f1f1f1;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('changePasswordModal');
+    const btn = document.getElementById('changePasswordBtn');
+    const span = document.getElementsByClassName('close')[0];
+    const form = document.getElementById('changePasswordForm');
+
+    btn.onclick = function() {
+        modal.style.display = 'block';
+    }
+
+    span.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        // Here you would typically send an AJAX request to change the password
+        alert('Password change functionality to be implemented');
+        modal.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}My Attendance - Eventify{% endblock %}
+{% block content %}
+<div class="attendance-container">
+    <h1 class="page-title">My Attendance</h1>
+    <div class="attendance-summary">
+        <div class="summary-card">
+            <h3>Total Activities</h3>
+            <p class="summary-number">{{ attendance|length }}</p>
+        </div>
+        <div class="summary-card">
+            <h3>Present</h3>
+            <p class="summary-number">{{ attendance|selectattr("status", "equalto", "Present")|list|length }}</p>
+        </div>
+        <div class="summary-card">
+            <h3>Absent</h3>
+            <p class="summary-number">{{ attendance|selectattr("status", "equalto", "Absent")|list|length }}</p>
+        </div>
+    </div>
+    <div class="attendance-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>Activity</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in attendance %}
+                <tr>
+                    <td>{{ record.activity_name }}</td>
+                    <td>{{ record.date }}</td>
+                    <td class="status-{{ record.status|lower }}">{{ record.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .attendance-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .page-title {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .attendance-summary {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+    }
+    .summary-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        flex: 1;
+        margin: 0 1rem;
+    }
+    .summary-card h3 {
+        font-size: 1.2rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    .summary-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #3498db;
+    }
+    .attendance-list {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    th {
+        background-color: #f0f4f8;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+    .status-present {
+        color: #27ae60;
+    }
+    .status-absent {
+        color: #e74c3c;
+    }
+</style>
+{% endblock %}

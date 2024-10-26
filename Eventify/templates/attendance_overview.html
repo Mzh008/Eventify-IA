@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Attendance Overview - Eventify{% endblock %}
+{% block content %}
+<div class="attendance-overview-container">
+    <h1 class="page-title">Attendance Overview</h1>
+    <div class="activities-list">
+        {% for activity in activities %}
+        <div class="activity-card">
+            <h2>{{ activity.name }}</h2>
+            <p><strong>Date:</strong> {{ activity.date }}</p>
+            <p><strong>Time:</strong> {{ activity.time }}</p>
+            <p><strong>Location:</strong> {{ activity.location }}</p>
+            <p><strong>Attendance Rate:</strong> {{ (activity.attendance_count / activity.max_participants) * 100 }}%</p>
+            <a href="{{ url_for('activity_attendance', activity_id=activity.id) }}" class="btn btn-primary">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .attendance-overview-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .page-title {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .activities-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    .activity-card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+    .activity-card h2 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+    .btn-primary {
+        background-color: #3498db;
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+</style>
+{% endblock %}

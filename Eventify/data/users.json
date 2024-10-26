@@ -1,0 +1,37 @@
+[
+    {
+        "username": "admin",
+        "password": "scrypt:32768:8:1$dyEuFo2tvORb9biz$e60ac47537980ac2aa202558dcc5e3d22a590c53485f787ea52ed299cdc7bd567dd50a0a7a20b7628aaa898e217bb9e5919b1e94898c893778fdce4f48cbfab1",
+        "role": "Admin",
+        "name": "Administrator",
+        "description": "",
+        "grade": ""
+    },
+    {
+        "username": "test1",
+        "password": "scrypt:32768:8:1$586KABYd7HQgw7wk$2c4d3eb83863b2fb585bee9bb3b0a56ce2f6f685645b753c3334f0750b102314ce6626f321f3ac97ed42befed96b177961483d935caf5a87ad41fc5787587450",
+        "role": "Teacher",
+        "name": "test1",
+        "description": "This user has no description yet",
+        "grade": "This user has no grade yet",
+        "email": "1@test.com"
+    },
+    {
+        "username": "3",
+        "password": "scrypt:32768:8:1$w2oPRdEgAaz1a57f$f511cd5c8d49380a448531e939a20088cd2a5c6902d4d90bba89ea975a27faf2ed6008d8f09b93e2191af2c08d6ee65523f7718ee06cb8e6f41980eb7927e2f9",
+        "role": "Student",
+        "name": "3",
+        "description": "This user has no description yet",
+        "grade": "This user has no grade yet",
+        "email": "3@test.com"
+    },
+    {
+        "username": "4",
+        "password": "4",
+        "role": "Student",
+        "name": "4",
+        "description": "This user has no description yet",
+        "grade": "This user has no grade yet",
+        "email": "4@test.com"
+    }
+]

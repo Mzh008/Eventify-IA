@@ -1,0 +1,122 @@
+[
+    {
+      "id": 1,
+      "name": "Annual Science Fair",
+      "short_description": "Showcase your scientific projects",
+      "description": "Present your innovative science projects to peers and judges. Prizes awarded for top experiments and displays.",
+      "date": "2023-11-15",
+      "time": "3:00 PM - 7:00 PM",
+      "location": "School Gymnasium",
+      "max_participants": 100,
+      "current_participants": 0,
+      "status": "Upcoming"
+    },
+    {
+      "id": 2,
+      "name": "Interschool Basketball Tournament",
+      "short_description": "Compete against other schools",
+      "description": "Join our school's basketball team in a thrilling tournament against rival schools. Show your school spirit!",
+      "date": "2023-12-05",
+      "time": "2:00 PM - 6:00 PM",
+      "location": "School Sports Complex",
+      "max_participants": 50,
+      "current_participants": 0,
+      "status": "Upcoming"
+    },
+    {
+      "id": 3,
+      "name": "Creative Writing Workshop",
+      "short_description": "Enhance your writing skills",
+      "description": "Learn advanced writing techniques from published authors. Perfect for aspiring writers and English enthusiasts.",
+      "date": "2023-11-20",
+      "time": "4:00 PM - 6:00 PM",
+      "location": "School Library",
+      "max_participants": 30,
+      "current_participants": 0,
+      "status": "Upcoming"
+    },
+    {
+      "id": 4,
+      "name": "Environmental Awareness Day",
+      "short_description": "Make a difference in our community",
+      "description": "Participate in local clean-up efforts and learn about sustainable practices. Certificate of participation provided.",
+      "date": "2023-11-25",
+      "time": "9:00 AM - 1:00 PM",
+      "location": "School Grounds and Local Park",
+      "max_participants": 200,
+      "current_participants": 0,
+      "status": "Upcoming"
+    },
+    {
+      "id": 5,
+      "name": "Career Exploration Fair",
+      "short_description": "Discover future career paths",
+      "description": "Meet professionals from various fields and learn about different career opportunities. Great for juniors and seniors!",
+      "date": "2023-12-10",
+      "time": "1:00 PM - 5:00 PM",
+      "location": "School Auditorium",
+      "max_participants": 300,
+      "current_participants": 0,
+      "status": "Upcoming"
+    },
+    {
+      "id": 6,
+      "name": "Annual Talent Show",
+      "short_description": "Showcase your unique talents",
+      "description": "Perform your special talent in front of the school. Singing, dancing, magic tricks - all talents welcome!",
+      "date": "2024-02-14",
+      "time": "6:00 PM - 9:00 PM",
+      "location": "School Auditorium",
+      "max_participants": 50,
+      "current_participants": 0,
+      "status": "Upcoming"
+    },
+    {
+      "id": 7,
+      "name": "Robotics Club Kickoff",
+      "short_description": "Build and program robots",
+      "description": "Join the exciting world of robotics! Learn to build and program robots for competitions and fun projects.",
+      "date": "2023-10-01",
+      "time": "3:30 PM - 5:30 PM",
+      "location": "Technology Lab",
+      "max_participants": 25,
+      "current_participants": 0,
+      "status": "Ongoing"
+    },
+    {
+      "id": 8,
+      "name": "Mock United Nations Conference",
+      "short_description": "Debate global issues",
+      "description": "Represent a country in our school's Model UN. Develop public speaking and diplomacy skills while addressing world problems.",
+      "date": "2024-03-15",
+      "time": "9:00 AM - 4:00 PM",
+      "location": "School Conference Room",
+      "max_participants": 60,
+      "current_participants": 0,
+      "status": "Upcoming"
+    },
+    {
+      "id": 9,
+      "name": "Spring Musical Auditions",
+      "short_description": "Be part of this year's musical",
+      "description": "Audition for roles in our school's production of 'Grease'. Singers, actors, and backstage crew needed!",
+      "date": "2024-01-10",
+      "time": "3:30 PM - 6:30 PM",
+      "location": "School Theater",
+      "max_participants": 75,
+      "current_participants": 0,
+      "status": "Upcoming"
+    },
+    {
+      "id": 10,
+      "name": "Peer Tutoring Program",
+      "short_description": "Help fellow students succeed",
+      "description": "Volunteer as a peer tutor or sign up to receive tutoring in various subjects. Great for your college applications!",
+      "date": "2023-09-15",
+      "time": "3:30 PM - 4:30 PM",
+      "location": "Study Hall",
+      "max_participants": 100,
+      "current_participants": 0,
+      "status": "Ongoing"
+    }
+  ]

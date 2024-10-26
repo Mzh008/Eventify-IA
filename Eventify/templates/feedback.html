@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% block title %}Feedback - Eventify{% endblock %}
+{% block content %}
+<div class="feedback-container">
+    <h1 class="page-title">Activity Feedback</h1>
+    <div class="feedback-grid">
+        {% for feedback in feedbacks %}
+            <div class="feedback-card">
+                <h2>{{ feedback.activity_name }}</h2>
+                <p class="feedback-info">By: {{ feedback.username }} | Rating: {{ feedback.rating }}/5</p>
+                <p class="feedback-comment">{{ feedback.comments }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% if g.current_user['role'] == 'Student' %}
+        <h2 class="sub-title">Submit Feedback</h2>
+        <div class="activity-grid">
+            {% for activity in user_activities %}
+                <div class="activity-card">
+                    <h3>{{ activity.name }}</h3>
+                    {% if activity.has_feedback %}
+                        <p class="feedback-status">Feedback submitted</p>
+                    {% else %}
+                        <button class="btn btn-primary submit-feedback" data-activity-id="{{ activity.id }}">Submit Feedback</button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<!-- Feedback Modal -->
+<div id="feedbackModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Submit Feedback</h2>
+        <form id="feedbackForm">
+            <input type="hidden" id="activityId" name="activityId">
+            <div class="feedback-layout">
+                <div class="feedback-left">
+                    <div class="form-group">
+                        <label for="comments">Comments:</label>
+                        <textarea id="comments" name="comments" required></textarea>
+                    </div>
+                </div>
+                <div class="feedback-right">
+                    <div class="form-group">
+                        <label for="rating">Rating:</label>
+                        <select id="rating" name="rating" required>
+                            <option value="">Select a rating</option>
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="3">3 - Good</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="1">1 - Poor</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .feedback-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .page-title {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .activity-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    .activity-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    .activity-card:hover {
+        transform: translateY(-5px);
+    }
+    .activity-card h2 {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+    .feedback-status {
+        color: #27ae60;
+        font-weight: bold;
+    }
+    .btn-primary {
+        background-color: #3498db;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+    .no-activities {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #7f8c8d;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        backdrop-filter: blur(5px);
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 800px;
+        border-radius: 10px;
+        max-height: 80vh;
+        height: 400px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* 垂直居中 */
+        align-items: center; /* 水平居中 */
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        text-align: left;
+    }
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .form-group textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+    .feedback-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    .feedback-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .feedback-info {
+        font-style: italic;
+        color: #7f8c8d;
+        margin-bottom: 1rem;
+    }
+    .feedback-comment {
+        color: #2c3e50;
+    }
+    .sub-title {
+        font-size: 2rem;
+        color: #3498db;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .feedback-layout {
+        display: flex;
+        height: 100%;
+    }
+
+    .feedback-left {
+        flex: 2;
+        padding-right: 20px;
+    }
+
+    .feedback-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        text-align: left;
+    }
+
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-group textarea {
+        flex-grow: 1;
+        resize: none;
+    }
+
+    .btn-primary {
+        margin-top: auto;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('feedbackModal');
+    const closeBtn = modal.querySelector('.close');
+    const submitBtns = document.querySelectorAll('.submit-feedback');
+    const form = document.getElementById('feedbackForm');
+
+    submitBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const activityId = this.getAttribute('data-activity-id');
+            document.getElementById('activityId').value = activityId;
+            modal.style.display = 'block';
+        });
+    });
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        const activityId = document.getElementById('activityId').value;
+        const rating = document.getElementById('rating').value;
+        const comments = document.getElementById('comments').value;
+
+        fetch(`/submit_feedback/${activityId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ rating, comments }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Feedback submitted successfully!');
+                location.reload();
+            } else {
+                alert('Error submitting feedback. Please try again.');
+            }
+            modal.style.display = 'none';
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+});
+</script>
+{% endblock %}

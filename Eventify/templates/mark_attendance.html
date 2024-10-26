@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}Mark Attendance - Eventify{% endblock %}
+{% block content %}
+<div class="mark-attendance-container">
+    <h1 class="page-title">Mark Attendance</h1>
+    <div class="activities-grid">
+        {% for activity in activities %}
+            <div class="activity-card">
+                <h3>{{ activity.name }}</h3>
+                <p>Date: {{ activity.date }}</p>
+                <div class="button-container">
+                    <button class="btn btn-primary select-activity" data-id="{{ activity.id }}">Select</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Attendance Modal -->
+<div id="attendanceModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Student Attendance</h2>
+        <form id="attendanceForm" method="POST">
+            <input type="hidden" id="selected_activity_id" name="activity_id">
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody id="studentListBody">
+                    <!-- This will be populated by JavaScript -->
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Save Attendance</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .mark-attendance-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .page-title {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .activities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    .activity-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+    .activity-card:hover {
+        transform: translateY(-5px);
+    }
+    .activity-card h3 {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: auto;
+    }
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .btn-primary {
+        background-color: #3498db;
+        color: #fff;
+    }
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        backdrop-filter: blur(5px);
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        max-width: 800px;
+        border-radius: 10px;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .attendance-table th, .attendance-table td {
+        padding: 0.75rem;
+        border: 1px solid #bdc3c7;
+    }
+    .attendance-table th {
+        background-color: #f0f4f8;
+        font-weight: bold;
+    }
+    .attendance-table td {
+        text-align: center;
+    }
+    .attendance-table select {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('attendanceModal');
+    const activityCards = document.querySelectorAll('.select-activity');
+    const closeBtn = modal.querySelector('.close');
+    const attendanceForm = document.getElementById('attendanceForm');
+    const selectedActivityIdInput = document.getElementById('selected_activity_id');
+    const studentListBody = document.getElementById('studentListBody');
+
+    activityCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const activityId = this.getAttribute('data-id');
+            selectedActivityIdInput.value = activityId;
+
+            fetch(`/get_activity_students/${activityId}`)
+                .then(response => response.json())
+                .then(data => {
+                    studentListBody.innerHTML = '';
+                    data.students.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${student.name}</td>
+                            <td>
+                                <select name="attendance_${student.id}" required>
+                                    <option value="present">Present</option>
+                                    <option value="absent">Absent</option>
+                                </select>
+                            </td>
+                        `;
+                        studentListBody.appendChild(row);
+                    });
+                    modal.style.display = 'block';
+                });
+        });
+    });
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    attendanceForm.onsubmit = function(e) {
+        e.preventDefault();
+        // Here you would typically send an AJAX request to save the attendance
+        // For now, we'll just close the modal and show an alert
+        alert('Attendance saved successfully!');
+        modal.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

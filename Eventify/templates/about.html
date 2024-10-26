@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block title %}About Us - Eventify{% endblock %}
+{% block content %}
+<div class="about-container">
+    <header class="about-header">
+        <h1>About Eventify</h1>
+        <p>Revolutionizing school activity management</p>
+    </header>
+
+    <section class="about-content">
+        <div class="about-text">
+            <h2>Our Mission</h2>
+            <p>At Eventify, we're committed to streamlining the organization and participation of extracurricular events in schools. Our comprehensive platform bridges the gap between activity coordinators and students, offering an efficient and user-friendly solution for managing school activities.</p>
+        </div>
+        <div class="about-image">
+            <img src="{{ url_for('static', filename='images/about-image.jpg') }}" alt="Eventify Team">
+        </div>
+    </section>
+
+    <section class="team">
+        <h2>Meet Our Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/def.png') }}" alt="Alex">
+                <h3>Alex</h3>
+                <p>Developer</p>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/def.png') }}" alt="Maksym">
+                <h3>Maksym</h3>
+                <p>Developer</p>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/def.png') }}" alt="Thomas">
+                <h3>Thomas</h3>
+                <p>Developer</p>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/def.png') }}" alt="Zihang">
+                <h3>Zihang</h3>
+                <p>Developer</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact">
+        <h2>Get in Touch</h2>
+        <p>Have questions or suggestions? We'd love to hear from you!</p>
+        <a href="mailto:contact@eventify.com" class="btn btn-primary">Contact Us</a>
+    </section>
+</div>
+
+<style>
+    .about-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .about-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    .about-header h1 {
+        font-size: 3rem;
+        color: #3498db;
+        margin-bottom: 1rem;
+    }
+    .about-header p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+    .about-content {
+        display: flex;
+        align-items: center;
+        margin-bottom: 3rem;
+    }
+    .about-text {
+        flex: 1;
+        padding-right: 2rem;
+    }
+    .about-text h2 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+    .about-text p {
+        font-size: 1.1rem;
+        color: #555;
+        line-height: 1.6;
+    }
+    .about-image {
+        flex: 0 0 40%;
+        max-width: 40%;
+    }
+    .about-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .team {
+        margin-bottom: 3rem;
+    }
+    .team h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+    }
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+    .team-member {
+        text-align: center;
+    }
+    .team-member img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+        object-fit: cover;
+    }
+    .team-member h3 {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    .team-member p {
+        color: #555;
+    }
+    .contact {
+        text-align: center;
+        background-color: #ecf0f1;
+        padding: 3rem;
+        border-radius: 10px;
+    }
+    .contact h2 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+    .contact p {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 2rem;
+    }
+    .btn-primary {
+        background-color: #3498db;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+</style>
+{% endblock %}

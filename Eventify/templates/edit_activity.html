@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Edit Activity - Eventify{% endblock %}
+{% block content %}
+<div class="edit-activity-container">
+    <h1 class="page-title">Edit Activity</h1>
+    <form method="POST" class="activity-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name">Activity Name</label>
+                <input type="text" id="name" name="name" value="{{ activity.name }}" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" value="{{ activity.date }}" required class="form-control">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="time">Time</label>
+                <input type="time" id="time" name="time" value="{{ activity.time }}" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" value="{{ activity.location }}" required class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" required class="form-control">{{ activity.description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="max_participants">Maximum Participants</label>
+            <input type="number" id="max_participants" name="max_participants" value="{{ activity.max_participants }}" required class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Activity</button>
+    </form>
+</div>
+
+<style>
+    .edit-activity-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    .page-title {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .activity-form {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+    }
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .form-group {
+        flex: 0 0 48%;
+        margin-bottom: 1.5rem;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+        font-weight: bold;
+    }
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+    }
+    .btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+    .btn-primary {
+        background-color: #3498db;
+        color: #ffffff;
+    }
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+</style>
+{% endblock %}
