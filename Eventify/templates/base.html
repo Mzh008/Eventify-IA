@@ -41,7 +41,7 @@
         .modal-header {
             margin-bottom: 20px;
             position: relative;
-            padding-top: 20px; /* 为关闭按钮腾出空间 */
+            padding-top: 20px; 
         }
         .modal-header h2 {
             font-size: 2em;
@@ -106,7 +106,6 @@
             opacity: 0.8;
         }
         nav {
-            /* ... 其他样式保持不变 ... */
             scrollbar-width: none;  /* Firefox */
             -ms-overflow-style: none;  /* Internet Explorer 10+ */
         }
@@ -117,7 +116,6 @@
             display: none;  /* Chrome, Safari, Opera */
         }
 
-        /* ... 其他样式保持不变 ... */
     </style>
     {% block extra_css %}{% endblock %}
 </head>
@@ -254,7 +252,7 @@
             </div>
         </div>
     </div>
-    <!-- 错误提示模态框 -->
+
     <div id="errorModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -267,7 +265,6 @@
         </div>
     </div>
 
-    <!-- 成功提示模态框 -->
     <div id="successModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -280,7 +277,6 @@
         </div>
     </div>
 
-    <!-- 创建活动模态框 -->
     <div id="createActivityModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -315,7 +311,6 @@
         </div>
     </div>
 
-    <!-- 编辑活动模态框 -->
     <div id="editActivityModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
