@@ -17,15 +17,13 @@ ATTENDANCE_FILE = 'data/attendance.json'
 FEEDBACK_FILE = 'data/feedback.json'
 
 # Helper functions to read and write JSON files
-def read_json(file):
-    if not os.path.exists(file):
-        return []
-    with open(file, 'r') as f:
-        return json.load(f)
+def read_json(file_path):
+    with open(file_path, 'r') as file:
+        return json.load(file)
 
-def write_json(file, data):
-    with open(file, 'w') as f:
-        json.dump(data, f, indent=4)
+def write_json(file_path, data):
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=4)
 
 # Decorators for role-based access
 def login_required(f):
@@ -33,7 +31,7 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         if 'username' not in session:
             flash('Please log in to access this page.', 'warning')
-            return redirect(url_for('auth'))
+            return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -41,7 +39,7 @@ def roles_required(*roles):
     def wrapper(f):
         @wraps(f)
         def wrapped(*args, **kwargs):
-            if g.current_user['role'] not in roles:  # Changed to ['role']
+            if g.current_user['role'] not in roles:  # Change to ['role']
                 flash('You do not have permission to access this page.', 'error')
                 return redirect(url_for('home'))
             return f(*args, **kwargs)
@@ -81,7 +79,23 @@ app.jinja_env.globals.update(current_user=lambda: g.current_user)
 def home():
     return render_template('home.html', hide_content=False)
 
-
+@app.route('/auth', methods=['GET', 'POST'])
+def auth():
+    if request.method == 'POST':
+        if 'login' in request.form:
+            # login logic
+            username = request.form['username']
+            password = request.form['password']
+            # ... verification logic ...
+        elif 'register' in request.form:
+            # register logic
+            username = request.form['username']
+            password = request.form['password']
+            name = request.form['name']
+            description = request.form['description']
+            grade = request.form['grade']
+            # ... register logic ...
+    return render_template('auth.html')
 
 @app.route('/logout')
 def logout():
@@ -110,10 +124,10 @@ def activities():
     signups = read_json(SIGNUPS_FILE)
     attendance = read_json(ATTENDANCE_FILE)
     
-    # 获取当前用户的报名情况
+    # Get current user's signup status
     user_signups = [signup['activity_id'] for signup in signups if signup['username'] == g.current_user['username']]
     
-    # 为每个活动添加 'signed_up' 和 'attendance_count' ��段
+    # Add 'signed_up' and 'attendance_count' fields to each activity
     for activity in activities:
         activity['signed_up'] = activity['id'] in user_signups
         activity['attendance_count'] = len([a for a in attendance if a['activity_id'] == activity['id'] and a['status'] == 'Present'])
@@ -141,19 +155,19 @@ def my_attendance():
 
 @app.route('/api/data')
 def get_data():
-    # 这里应该返回您想在前端显示的数据
+    # Return the data you want to display in the frontend
     data = [
         {"name": "Activity 1", "value": "Description 1"},
         {"name": "Activity 2", "value": "Description 2"},
-        # ... 更多数据
+        # ... more data
     ]
     return jsonify(data)
 
 @app.route('/api/data', methods=['POST'])
 def add_data():
     new_data = request.json
-    # 这里应该处理添加新数据的逻辑
-    # 如，将新数据添加到 activities.json 文件中
+    # Add logic to handle adding new data
+    # For example, add new data to activities.json file
     activities = read_json(ACTIVITIES_FILE)
     new_id = max([a['id'] for a in activities], default=0) + 1
     activities.append({
@@ -189,7 +203,7 @@ def activity(activity_id):
 @roles_required('Teacher', 'Admin')
 def create_activity():
     if request.method == 'POST':
-        # 处理创建活动的逻辑
+        # Handle logic for creating an activity
         pass
     return render_template('create_activity.html')
 
@@ -225,7 +239,7 @@ def attendance():
 @roles_required('Teacher', 'Admin')
 def attendance_overview():
     activities = read_json(ACTIVITIES_FILE)
-    # 这里需要添加计算出勤率的逻辑
+    # Add logic to calculate attendance rate
     return render_template('attendance_overview.html', activities=activities)
 
 @app.route('/attendance/activity/<int:activity_id>')
@@ -307,7 +321,7 @@ def feedback():
     feedbacks = read_json(FEEDBACK_FILE)
     activities = read_json(ACTIVITIES_FILE)
     
-    # 为每个反馈添加活动名称
+    # Add activity name to each feedback
     for feedback in feedbacks:
         activity = next((a for a in activities if a['id'] == feedback['activity_id']), None)
         if activity:
@@ -365,56 +379,56 @@ def manage_users():
 @login_required
 @roles_required('Admin')
 def system_settings():
-    # Logic for system settings can be added here
+    # Add system settings logic here
     return render_template('system_settings.html')
 
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-@app.route('/auth', methods=['GET', 'POST'])
-def auth():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if request.method == 'POST':
-        if 'login' in request.form:
-            users = read_json(USERS_FILE)
-            username = request.form['username']
-            password = request.form['password']
-            user = next((u for u in users if u['username'] == username), None)
+        username = request.form['username']
+        password = request.form['password']
+        users = read_json(USERS_FILE)
+        user = next((user for user in users if user['username'] == username), None)
+        
+        if user and check_password_hash(user['password'], password):
+            session['username'] = username
+            flash('Login successful!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Invalid username or password', 'warning')
+    
+    return render_template('auth.html')
 
-            if user and check_password_hash(user['password'], password):
-                session['username'] = username
-                flash('Login successful!', 'success')
-                return redirect(url_for('home'))
-            else:
-                flash('Invalid username or password', 'error')
-
-        elif 'register' in request.form:
-            users = read_json(USERS_FILE)
-            username = request.form['username']
-            password = request.form['password']
-            email = request.form['email']
-            role = 'Student'  # Default role
-            name = request.form['name']
-            description = "This user has no description yet"
-            grade = "This user has no grade yet"
-
-            if any(user['username'] == username for user in users):
-                flash('Username already exists!', 'error')
-                return redirect(url_for('auth'))
-
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        name = request.form['name']
+        
+        users = read_json(USERS_FILE)
+        if any(user['username'] == username for user in users):
+            flash('Username already exists', 'warning')
+        elif any(user['email'] == email for user in users):
+            flash('Email already in use', 'warning')
+        else:
             hashed_password = generate_password_hash(password)
-            users.append({
+            new_user = {
                 'username': username,
                 'password': hashed_password,
-                'role': role,
+                'email': email,
                 'name': name,
-                'description': description,
-                'grade': grade,
-                'email': email
-            })
+                'role': 'Student'  # Default role
+            }
+            users.append(new_user)
             write_json(USERS_FILE, users)
             flash('Registration successful! Please log in.', 'success')
-            return redirect(url_for('auth'))
+            return redirect(url_for('login'))
     
     return render_template('auth.html')
 
@@ -424,12 +438,12 @@ def signup_activity(activity_id):
     signups = read_json(SIGNUPS_FILE)
     activities = read_json(ACTIVITIES_FILE)
     
-    # Check if the activity exists
+    # Check if activity exists
     activity = next((a for a in activities if a['id'] == activity_id), None)
     if not activity:
         return jsonify({"success": False, "message": "Activity not found."}), 404
     
-    # Check if the user has already signed up
+    # Check if user has already signed up
     if any(signup['username'] == g.current_user['username'] and signup['activity_id'] == activity_id for signup in signups):
         return jsonify({"success": False, "message": "You have already signed up for this activity."}), 400
     
@@ -442,14 +456,14 @@ def signup_activity(activity_id):
     signups.append(new_signup)
     write_json(SIGNUPS_FILE, signups)
     
-    print(f"User {g.current_user['username']} signed up for activity {activity_id}")  # Debug output
+    print(f"User {g.current_user['username']} signed up for activity {activity_id}")  # Add debugging output
     
     return jsonify({"success": True, "message": "You have successfully signed up for the activity."})
 
 @app.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
-    # Implement password change logic
+    # Implement logic to change password
     return render_template('change_password.html')
 
 @app.route('/edit_activity/<int:activity_id>', methods=['GET', 'POST'])
@@ -477,7 +491,7 @@ def edit_activity(activity_id):
 
     return render_template('edit_activity.html', activity=activity)
 
-# Run this code when the application starts
+# Run this code when the app starts
 if not os.path.exists(USERS_FILE):
     test_user = {
         'username': 'test',
